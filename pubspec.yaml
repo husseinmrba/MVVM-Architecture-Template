@@ -48,6 +48,7 @@ dependencies:
   cached_network_image: ^3.4.1
   get_storage: ^2.1.1
   internet_connection_checker: ^2.0.0
+  colorful_print: ^0.1.2
 
 dev_dependencies:
   flutter_test:
