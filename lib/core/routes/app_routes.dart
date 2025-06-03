@@ -4,7 +4,7 @@ import 'package:mvvm_architecture_template/features/main_feature/presentation/vi
 import 'package:mvvm_architecture_template/features/splash_feature/presentation/views/splash_responsive_view.dart';
 
 class AppRoutes {
-  static const splashRoute = "/splashRoute";
+  static const splashRoute = "/";
   static const mainRoute = "/main";
 }
 

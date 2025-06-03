@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mvvm_architecture_template/core/api/dio_client.dart';
 import 'package:mvvm_architecture_template/core/api/headers_constants.dart';
 import 'package:mvvm_architecture_template/core/configs/configuration.dart';
-import 'package:mvvm_architecture_template/core/interceptors/internet_connection_interceptor.dart';
+import 'package:mvvm_architecture_template/core/errors/error_handler.dart';
 import 'package:mvvm_architecture_template/core/interceptors/logging_interceptor.dart';
 import 'package:mvvm_architecture_template/core/interceptors/token_interceptor.dart';
 import 'package:mvvm_architecture_template/injectable_config.dart';
@@ -24,8 +24,6 @@ class DioClient implements IDioClient {
       ..baseUrl = getIt<Configuration>().getBaseUrl
       ..responseType = ResponseType.plain
       ..followRedirects = true;
-
-    client.interceptors.add(getIt<InternetConnectionInterceptor>());
     client.interceptors.add(getIt<TokenInterceptor>());
     if (kDebugMode) {
       client.interceptors.add(getIt<LoggingInterceptor>());
@@ -60,8 +58,8 @@ class DioClient implements IDioClient {
         ).copyWith(),
       );
       return _handleOnlineResponseAsJson(response);
-    } catch (error) {
-      rethrow;
+    } on DioException catch (e) {
+      handleDioException(e);
     }
   }
 
@@ -84,8 +82,8 @@ class DioClient implements IDioClient {
         ),
       );
       return _handleOnlineResponseAsJson(response);
-    } catch (error) {
-      rethrow;
+    } on DioException catch (e) {
+      handleDioException(e);
     }
   }
 
@@ -106,8 +104,8 @@ class DioClient implements IDioClient {
             headers: _headers, contentType: HeadersConstants.jsonContentType),
       );
       return _handleOnlineResponseAsJson(response);
-    } catch (error) {
-      rethrow;
+    } on DioException catch (e) {
+      handleDioException(e);
     }
   }
 
@@ -131,8 +129,8 @@ class DioClient implements IDioClient {
         data: formData ?? body,
       );
       return _handleOnlineResponseAsJson(response);
-    } catch (error) {
-      rethrow;
+    } on DioException catch (e) {
+      handleDioException(e);
     }
   }
 
@@ -155,8 +153,8 @@ class DioClient implements IDioClient {
         ),
       );
       return _handleOnlineResponseAsJson(response);
-    } catch (error) {
-      rethrow;
+    } on DioException catch (e) {
+      handleDioException(e);
     }
   }
 }

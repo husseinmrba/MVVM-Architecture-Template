@@ -1,72 +1,143 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import 'package:mvvm_architecture_template/core/errors/error_model.dart';
 
-abstract class Failure {
-  final String errMsg;
-
-  Failure(this.errMsg);
+//!ServerException
+class ServerException implements Exception {
+  final ErrorModel errorModel;
+  ServerException(this.errorModel);
 }
 
-class ServerFailure extends Failure {
-  ServerFailure(super.errMsg);
+//!CacheException
+class CacheException implements Exception {
+  final String errorMessage;
+  CacheException({required this.errorMessage});
+}
 
-  factory ServerFailure.fromDioException(DioException dioException) {
-    switch (dioException.type) {
-      case DioExceptionType.connectionTimeout:
-        return ServerFailure(
-            'Couldn\'t connect to the server. Please check your internet and try again.');
-      case DioExceptionType.sendTimeout:
-        return ServerFailure(
-            'Sending the request took too long. Please try again.');
-      case DioExceptionType.receiveTimeout:
-        return ServerFailure(
-            'The server is taking too long to respond. Please try again.');
-      case DioExceptionType.badCertificate:
-        return ServerFailure(
-            'There\'s a problem with the server\'s security. Please try again or contact support.');
-      case DioExceptionType.badResponse:
-        return ServerFailure.fromResponse(
-            dioException.response!.statusCode!, dioException.response!.data);
-      case DioExceptionType.cancel:
-        return ServerFailure('The request was canceled. Please try again.');
-      case DioExceptionType.connectionError:
-        return ServerFailure(
-            'Couldn\'t connect to the server. Please check your internet connection.');
-      case DioExceptionType.unknown:
-        if (dioException.error != null &&
-            dioException.error is SocketException) {
-          return ServerFailure(
-              'No internet connection. Please check and try again.');
-        }
-        return ServerFailure('Something went wrong. Please try again later.');
+class BadCertificateException extends ServerException {
+  BadCertificateException(super.errorModel);
+}
 
-      default:
-        return ServerFailure('Something went wrong. Please try again.');
-    }
-  }
+class ConnectionTimeoutException extends ServerException {
+  ConnectionTimeoutException(super.errorModel);
+}
 
-  factory ServerFailure.fromResponse(int statusCode, dynamic response) {
-    try {
-      if (statusCode == 400 || statusCode == 401) {
-        return ServerFailure(response['error']['message'] ??
-            'There was a problem with your request. Please check your details and try again.');
-      } else if (statusCode == 403) {
-        return ServerFailure('You are not allowed to access this.');
-      } else if (statusCode == 404) {
-        return ServerFailure(
-            'Couldn\'t find what you were looking for. Please try again.');
-      } else if (statusCode == 409) {
-        return ServerFailure(
-            'There was a conflict with your request. Please check it and try again.');
-      } else if (statusCode == 500) {
-        return ServerFailure(
-            'The server has an issue. Please try again later.');
-      } else {
-        return ServerFailure('Something went wrong. Please try again.');
+class BadResponseException extends ServerException {
+  BadResponseException(super.errorModel);
+}
+
+class ReceiveTimeoutException extends ServerException {
+  ReceiveTimeoutException(super.errorModel);
+}
+
+class ConnectionErrorException extends ServerException {
+  ConnectionErrorException(super.errorModel);
+}
+
+class SendTimeoutException extends ServerException {
+  SendTimeoutException(super.errorModel);
+}
+
+class UnauthorizedException extends ServerException {
+  UnauthorizedException(super.errorModel);
+}
+
+class ForbiddenException extends ServerException {
+  ForbiddenException(super.errorModel);
+}
+
+class NotFoundException extends ServerException {
+  NotFoundException(super.errorModel);
+}
+
+class CofficientException extends ServerException {
+  CofficientException(super.errorModel);
+}
+
+class CancelException extends ServerException {
+  CancelException(super.errorModel);
+}
+
+class UnknownException extends ServerException {
+  UnknownException(super.errorModel);
+}
+
+class UnexpectedException extends ServerException {
+  UnexpectedException(super.errorModel);
+}
+
+class PaymentRequiredException extends ServerException {
+  PaymentRequiredException(super.errorModel);
+}
+
+handleDioException(DioException e) {
+  switch (e.type) {
+    case DioExceptionType.connectionError:
+      throw ConnectionErrorException(
+        ErrorModel(
+          msg: 'pleaseCheckYourInternetConnection'.tr,
+        ),
+      );
+    case DioExceptionType.badCertificate:
+      throw BadCertificateException(
+          ErrorModel.fromJson(jsonDecode(e.response?.data)));
+    case DioExceptionType.connectionTimeout:
+      throw ConnectionTimeoutException(
+        ErrorModel(
+          msg: 'connectionError'.tr,
+        ),
+      );
+    case DioExceptionType.receiveTimeout:
+      throw ReceiveTimeoutException(
+          ErrorModel.fromJson(jsonDecode(e.response?.data)));
+
+    case DioExceptionType.sendTimeout:
+      throw SendTimeoutException(
+          ErrorModel.fromJson(jsonDecode(e.response?.data)));
+
+    case DioExceptionType.cancel:
+      throw CancelException(ErrorModel(msg: e.toString()));
+
+    case DioExceptionType.unknown:
+      throw UnknownException(ErrorModel(msg: e.toString()));
+
+    case DioExceptionType.badResponse:
+      switch (e.response?.statusCode) {
+        case 400: // Bad request
+          throw BadResponseException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+
+        case 401: //unauthorized
+          throw UnauthorizedException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+
+        case 402: // Payment Required
+          throw PaymentRequiredException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+
+        case 403: //forbidden
+          throw ForbiddenException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+
+        case 404: //not found
+          throw NotFoundException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+
+        case 409: //cofficient
+          throw CofficientException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+
+        case 504: // Bad request
+          throw BadResponseException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+        case 500: // Bad request
+          throw BadResponseException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
+        case 0: // Bad request
+          throw UnexpectedException(
+              ErrorModel.fromJson(jsonDecode(e.response!.data)));
       }
-    } catch (e) {
-      return ServerFailure('Bad response format. Please contact support.');
-    }
   }
 }

@@ -7,16 +7,20 @@ import 'package:mvvm_architecture_template/core/constants/storage_keys.dart';
 class TokenInterceptor extends Interceptor {
   final GetStorage getStorage;
   TokenInterceptor({required this.getStorage});
+  // final List<String> noAuthEndpoints = [
+  //   AuthUrls.login,
+  // ];
 
   @override
   Future onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // if (ii<AuthService>().isLoggedIn && options.extra.keys.contains('no_token') == false) {
-    // final token = await ii<AuthService>().getToken();
-    String token = getStorage.read(StorageKeys.token);
-    options.headers['Authorization'] = token;
+    // if (!noAuthEndpoints.contains(options.path)) {
+    //   if (getIt<AppConfiguration>().isAuthorized) {
+    //     final token = await getIt<LoginRepo>().getToken();
+    //     options.headers['Authorization'] = token;
+    //   }
     // }
     // ii<Dio>().options.extra.clear();
     super.onRequest(options, handler);

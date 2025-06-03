@@ -74,19 +74,19 @@ abstract class Styles {
   );
 
   static const labelLarge = TextStyle(
-    fontSize: 16.0,
+    fontSize: 11.0,
     fontWeight: FontWeight.w500,
     color: Colors.black87,
   );
 
   static const labelMedium = TextStyle(
-    fontSize: 14.0,
+    fontSize: 10.0,
     fontWeight: FontWeight.w500,
     color: Colors.black87,
   );
 
   static const labelSmall = TextStyle(
-    fontSize: 12.0,
+    fontSize: 8.0,
     fontWeight: FontWeight.w500,
     color: Colors.black87,
   );
