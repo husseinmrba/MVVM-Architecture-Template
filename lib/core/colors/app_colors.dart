@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primaryColor = orange;
-  static const Color secondaryColor = blue;
+  static const Color primaryColor = tealBlue;
+  static const Color secondaryColor = paleMint;
   static const Color primaryBackgroundColor = Color(0xFFF8F8F8);
   static const Color secondaryBackgroundColor = Color(0xFFEAEAEA);
   static const Color transparentBlackColor = Color(0x83000000);
@@ -19,6 +19,10 @@ class AppColors {
   static const Color black = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
   static const Color gray = Color(0xFF878787);
+  static const Color tealBlue =
+      Color(0xFF00B09F); // لون أخضر مائل للأزرق (تركواز)
+  static const Color paleMint =
+      Color(0xFFE5F7F5); // لون فاتح جداً مائل للأخضر (مينت فاتح)
 
   static const List<Color> searchLinearGradient = [
     Color(0xFFcecee2),

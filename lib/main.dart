@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mvvm_architecture_template/core/configs/app_configuration.dart';
-import 'package:mvvm_architecture_template/core/configs/simple_bloc_observer.dart';
-import 'package:mvvm_architecture_template/core/hive/hive_database.dart';
-import 'package:mvvm_architecture_template/core/routes/app_routes.dart';
-import 'package:mvvm_architecture_template/core/translations/my_translations_config.dart';
-import 'package:mvvm_architecture_template/injectable_config.dart';
-import 'package:mvvm_architecture_template/theme/app_theme.dart';
+import 'package:store_ads/core/configs/app_configuration.dart';
+import 'package:store_ads/core/configs/simple_bloc_observer.dart';
+import 'package:store_ads/core/hive/hive_database.dart';
+import 'package:store_ads/core/routes/app_routes.dart';
+import 'package:store_ads/core/translations/my_translations_config.dart';
+import 'package:store_ads/injectable_config.dart';
+import 'package:store_ads/theme/app_theme.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       scrollBehavior: _MyCustomScrollBehavior(),
       enableLog: true,
       debugShowCheckedModeBanner: false,
-      locale: Get.deviceLocale ?? const Locale('en', 'US'),
+      locale: const Locale('ar', 'SY'),
       fallbackLocale: Get.deviceLocale ?? const Locale('en', 'US'),
       translations: MyTranslationsConfig(),
       defaultTransition:

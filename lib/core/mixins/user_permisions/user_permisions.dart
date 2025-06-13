@@ -1,6 +1,6 @@
-import 'package:mvvm_architecture_template/core/permissions/enum/features_enum.dart';
-import 'package:mvvm_architecture_template/core/permissions/enum/permission_actions_enum.dart';
-import 'package:mvvm_architecture_template/core/permissions/enum/user_role_enum.dart';
+import 'package:store_ads/core/permissions/enum/features_enum.dart';
+import 'package:store_ads/core/permissions/enum/permission_actions_enum.dart';
+import 'package:store_ads/core/permissions/enum/user_role_enum.dart';
 
 mixin UserPermissionsMixin {
   final Map<FeatureEnum, List<PermissionActionsEnum>> _basicPermission = {

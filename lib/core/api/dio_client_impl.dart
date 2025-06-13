@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mvvm_architecture_template/core/api/dio_client.dart';
-import 'package:mvvm_architecture_template/core/api/headers_constants.dart';
-import 'package:mvvm_architecture_template/core/configs/configuration.dart';
-import 'package:mvvm_architecture_template/core/errors/error_handler.dart';
-import 'package:mvvm_architecture_template/core/interceptors/logging_interceptor.dart';
-import 'package:mvvm_architecture_template/core/interceptors/token_interceptor.dart';
-import 'package:mvvm_architecture_template/injectable_config.dart';
+import 'package:store_ads/core/api/dio_client.dart';
+import 'package:store_ads/core/api/headers_constants.dart';
+import 'package:store_ads/core/configs/configuration.dart';
+import 'package:store_ads/core/errors/error_handler.dart';
+import 'package:store_ads/core/interceptors/logging_interceptor.dart';
+import 'package:store_ads/core/interceptors/token_interceptor.dart';
+import 'package:store_ads/injectable_config.dart';
 
 @LazySingleton(as: IDioClient)
 class DioClient implements IDioClient {

@@ -1,5 +1,5 @@
-import 'package:mvvm_architecture_template/core/colors/app_colors.dart';
-import 'package:mvvm_architecture_template/core/widgets/date_range_filter/date_picker_widget.dart';
+import 'package:store_ads/core/colors/app_colors.dart';
+import 'package:store_ads/core/widgets/date_range_filter/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';

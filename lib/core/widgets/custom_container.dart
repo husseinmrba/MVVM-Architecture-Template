@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm_architecture_template/core/extensions/color_extension.dart';
+import 'package:store_ads/core/extensions/color_extension.dart';
 
 class CustomContainer extends StatelessWidget {
   final double? width;

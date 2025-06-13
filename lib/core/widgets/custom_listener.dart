@@ -1,4 +1,4 @@
-import 'package:mvvm_architecture_template/core/helpers/snack_bar_helper.dart';
+import 'package:store_ads/core/helpers/snack_bar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,6 +1,6 @@
-import 'package:mvvm_architecture_template/core/colors/app_colors.dart';
-import 'package:mvvm_architecture_template/core/styles/styles.dart';
-import 'package:mvvm_architecture_template/core/widgets/custom_container.dart';
+import 'package:store_ads/core/colors/app_colors.dart';
+import 'package:store_ads/core/styles/styles.dart';
+import 'package:store_ads/core/widgets/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
 

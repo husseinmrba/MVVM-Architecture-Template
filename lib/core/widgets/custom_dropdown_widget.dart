@@ -1,6 +1,6 @@
-import 'package:mvvm_architecture_template/core/colors/app_colors.dart';
-import 'package:mvvm_architecture_template/core/styles/styles.dart';
-import 'package:mvvm_architecture_template/core/widgets/custom_progress_indicator.dart';
+import 'package:store_ads/core/colors/app_colors.dart';
+import 'package:store_ads/core/styles/styles.dart';
+import 'package:store_ads/core/widgets/custom_progress_indicator.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,6 +18,9 @@ class CustomDropdown<T> extends StatefulWidget {
   final String? title;
   final bool? isRequired;
   final bool isLoading;
+  final Color? color;
+  final double? width;
+  final double? height;
 
   const CustomDropdown({
     super.key,
@@ -32,6 +35,9 @@ class CustomDropdown<T> extends StatefulWidget {
     this.isRequired,
     this.initData,
     this.isLoading = true,
+    this.color,
+    this.width,
+    this.height,
   });
 
   @override
@@ -65,7 +71,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
               child: Text(
                 '- ${widget.title}',
                 style: Styles.bodySmall.copyWith(
-                  color: AppColors.secondaryColor,
+                  color: widget.color ?? AppColors.secondaryColor,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Alexandria',
                 ),
@@ -87,119 +93,124 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
             ),
           ],
         ),
-        DropdownButton2<T>(
-          isExpanded: true,
-          underline: const Divider(
-            height: 1,
-            color: AppColors.gray,
-          ),
-          hint: Row(
-            children: [
-              Icon(
-                widget.icon,
-                color: AppColors.secondaryColor,
-                size: 20,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                widget.hint,
-                style: Styles.bodyMedium.copyWith(
-                  color: AppColors.secondaryColor,
+        SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: DropdownButton2<T>(
+            isExpanded: true,
+            underline: const SizedBox.shrink(),
+            hint: Row(
+              children: [
+                Icon(
+                  widget.icon,
+                  color: widget.color ?? AppColors.secondaryColor,
+                  size: 12,
                 ),
-              ),
-            ],
-          ),
-          disabledHint: widget.isLoading
-              ? Row(
-                  children: [
-                    Icon(
-                      widget.icon,
-                      color: AppColors.secondaryColor,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      'جاري التحميل...',
-                      style: Styles.bodyMedium.copyWith(
-                        color: AppColors.secondaryColor,
-                      ),
-                    ),
-                  ],
-                )
-              : null,
-          items: widget.items
-              .map((item) => DropdownMenuItem<T>(
-                    value: item,
-                    child: Text(
-                      widget.itemLabel(item),
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  ))
-              .toList(),
-          value: widget.selectedValue,
-          onChanged: widget.onChanged,
-          style: Styles.bodyMedium.copyWith(
-            color: AppColors.secondaryColor,
-            fontFamily: 'Alexandria',
-          ),
-          buttonStyleData: const ButtonStyleData(
-            padding: EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 0,
-            ),
-            height: 56,
-          ),
-          dropdownStyleData: const DropdownStyleData(maxHeight: 400),
-          menuItemStyleData: const MenuItemStyleData(height: 40),
-          dropdownSearchData: DropdownSearchData(
-            searchController: textEditingController,
-            searchInnerWidgetHeight: 50,
-            searchInnerWidget: Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: TextFormField(
-                expands: true,
-                maxLines: null,
-                controller: textEditingController,
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  hintText: 'search'.tr,
-                  hintStyle: const TextStyle(fontSize: 12),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-              ),
-            ),
-            searchMatchFn: (item, searchValue) {
-              if (item.value == null) {
-                return false;
-              }
-              return widget
-                  .itemLabel(item.value!)
-                  .toLowerCase()
-                  .contains(searchValue.toLowerCase());
-            },
-          ),
-          onMenuStateChange: (isOpen) {
-            if (isOpen) {
-              widget.onMenuStateChange?.call();
-            } else {
-              textEditingController.clear();
-            }
-          },
-          iconStyleData: IconStyleData(
-            icon: widget.items.isNotEmpty || !widget.isLoading
-                ? const Icon(
-                    Icons.arrow_drop_down,
-                    color: AppColors.secondaryColor,
-                    size: 24,
-                  )
-                : const CustomProgressIndicator(
-                    size: 12,
-                    color: AppColors.secondaryColor,
+                const SizedBox(width: 12),
+                Text(
+                  widget.hint,
+                  style: Styles.bodyMedium.copyWith(
+                    color: widget.color ?? AppColors.secondaryColor,
                   ),
+                ),
+              ],
+            ),
+            disabledHint: widget.isLoading
+                ? Row(
+                    children: [
+                      Icon(
+                        widget.icon,
+                        color: widget.color ?? AppColors.secondaryColor,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'جاري التحميل...',
+                        style: Styles.bodyMedium.copyWith(
+                          color: widget.color ?? AppColors.secondaryColor,
+                        ),
+                      ),
+                    ],
+                  )
+                : null,
+            items: widget.items
+                .map((item) => DropdownMenuItem<T>(
+                      value: item,
+                      child: Text(
+                        widget.itemLabel(item),
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ))
+                .toList(),
+            value: widget.selectedValue,
+            onChanged: widget.onChanged,
+            style: Styles.bodyMedium.copyWith(
+              color: widget.color ?? AppColors.secondaryColor,
+              fontFamily: 'Alexandria',
+            ),
+            buttonStyleData: ButtonStyleData(
+              // padding: const EdgeInsets.symmetric(
+              //   vertical: 8,
+              //   horizontal: 0,
+              // ),
+              // height: 56,
+              decoration: BoxDecoration(
+                color: AppColors.gray.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            dropdownStyleData: const DropdownStyleData(maxHeight: 400),
+            menuItemStyleData: const MenuItemStyleData(height: 40),
+            dropdownSearchData: DropdownSearchData(
+              searchController: textEditingController,
+              searchInnerWidgetHeight: 50,
+              searchInnerWidget: Container(
+                height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: TextFormField(
+                  expands: true,
+                  maxLines: null,
+                  controller: textEditingController,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    hintText: 'search'.tr,
+                    hintStyle: const TextStyle(fontSize: 12),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                ),
+              ),
+              searchMatchFn: (item, searchValue) {
+                if (item.value == null) {
+                  return false;
+                }
+                return widget
+                    .itemLabel(item.value!)
+                    .toLowerCase()
+                    .contains(searchValue.toLowerCase());
+              },
+            ),
+            onMenuStateChange: (isOpen) {
+              if (isOpen) {
+                widget.onMenuStateChange?.call();
+              } else {
+                textEditingController.clear();
+              }
+            },
+            iconStyleData: IconStyleData(
+              icon: widget.items.isNotEmpty || !widget.isLoading
+                  ? Icon(
+                      Icons.arrow_drop_down,
+                      color: widget.color ?? AppColors.secondaryColor,
+                      size: 16,
+                    )
+                  : CustomProgressIndicator(
+                      size: 12,
+                      color: widget.color ?? AppColors.secondaryColor,
+                    ),
+            ),
           ),
         ),
       ],

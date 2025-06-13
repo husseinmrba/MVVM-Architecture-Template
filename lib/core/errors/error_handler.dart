@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:mvvm_architecture_template/core/errors/error_model.dart';
+import 'package:store_ads/core/errors/error_model.dart';
 
 //!ServerException
 class ServerException implements Exception {

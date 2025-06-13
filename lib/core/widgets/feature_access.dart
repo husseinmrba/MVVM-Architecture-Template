@@ -1,7 +1,7 @@
-import 'package:mvvm_architecture_template/core/permissions/enum/features_enum.dart';
-import 'package:mvvm_architecture_template/core/permissions/enum/permission_actions_enum.dart';
-import 'package:mvvm_architecture_template/core/permissions/permission_manager.dart';
-import 'package:mvvm_architecture_template/injectable_config.dart';
+import 'package:store_ads/core/permissions/enum/features_enum.dart';
+import 'package:store_ads/core/permissions/enum/permission_actions_enum.dart';
+import 'package:store_ads/core/permissions/permission_manager.dart';
+import 'package:store_ads/injectable_config.dart';
 import 'package:flutter/material.dart';
 
 class FeatureAccess extends StatelessWidget {

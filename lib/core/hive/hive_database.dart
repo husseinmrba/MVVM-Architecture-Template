@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mvvm_architecture_template/core/hive/hive_boxes.dart';
+import 'package:store_ads/core/hive/hive_boxes.dart';
 
 class HiveDatabase {
   static Future<void> init() async {

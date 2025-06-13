@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:mvvm_architecture_template/core/translations/ar_sy.dart';
-import 'package:mvvm_architecture_template/core/translations/en_us.dart';
+import 'package:store_ads/core/translations/ar_sy.dart';
+import 'package:store_ads/core/translations/en_us.dart';
 
 class MyTranslationsConfig extends Translations {
   @override
