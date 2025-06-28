@@ -1,20 +1,20 @@
 class PaginatedResponse<T> {
   final List<T> data;
   final String? dataNameField;
-  final int page;
-  final int pageSize;
+  final int pageNumber;
   final int totalPages;
-  final int totalItems;
-  final bool hasMorePages;
+  final int totalCount;
+  final bool hasPreviousPage;
+  final bool hasNextPage;
 
   PaginatedResponse({
     required this.data,
     this.dataNameField,
-    required this.page,
-    required this.pageSize,
+    required this.pageNumber,
     required this.totalPages,
-    required this.totalItems,
-    required this.hasMorePages,
+    required this.totalCount,
+    required this.hasPreviousPage,
+    required this.hasNextPage,
   });
 
   factory PaginatedResponse.fromJson({
@@ -24,11 +24,11 @@ class PaginatedResponse<T> {
   }) {
     return PaginatedResponse<T>(
       data: (json[dataNameField ?? 'data'] as List).map(fromJsonT).toList(),
-      page: json['paginate']['currentPage'],
-      pageSize: json['paginate']['perPage'],
-      totalPages: json['paginate']['lastPage'],
-      totalItems: json['paginate']['total'],
-      hasMorePages: json['paginate']['has_MorePages'] ?? false,
+      pageNumber: json['pageNumber'] ?? 1,
+      totalPages: json['totalPages'] ?? 1,
+      totalCount: json['totalCount'] ?? 0,
+      hasPreviousPage: json['hasPreviousPage'] ?? false,
+      hasNextPage: json['hasNextPage'] ?? false,
     );
   }
 }

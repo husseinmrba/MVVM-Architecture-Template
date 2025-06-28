@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:store_ads/core/colors/app_colors.dart';
-import 'package:store_ads/core/extensions/build_context_extension.dart';
+import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:store_ads/core/styles/styles.dart';
 import 'package:store_ads/core/widgets/banner_carousel.dart';
+import 'package:store_ads/core/widgets/custom_consumer.dart';
 import 'package:store_ads/core/widgets/custom_dropdown_widget.dart';
+import 'package:store_ads/core/widgets/custom_listener.dart';
+import 'package:store_ads/core/widgets/custom_progress_indicator.dart';
+import 'package:store_ads/features/main_feature/domain/entities/ad_entity.dart';
+import 'package:store_ads/features/main_feature/presentation/manager/get_ads_with_filter_cubit/get_ads_with_filter_cubit.dart';
 import 'package:store_ads/features/main_feature/presentation/views/mobile/widgets/ads_card_item.dart';
 import 'package:store_ads/features/main_feature/presentation/views/mobile/widgets/image_text_box_widget.dart';
 
@@ -107,27 +114,68 @@ class MainBodyMobileView extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        Expanded(
-          child: GridView.builder(
-            physics: const BouncingScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              // mainAxisSpacing: 8,
-              // crossAxisSpacing: 8,
-              childAspectRatio: 1.45,
-            ),
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return AdsCardItem(
-                imageUrl:
-                    'https://i.pinimg.com/736x/e0/84/2d/e0842dfc40bf00d4ac92a6b68e0281ee.jpg',
-                productName: 'منتج ${index + 1}',
-                price: '\$${(index + 1) * 10}',
-              );
-            },
-          ),
+        const Expanded(
+          child: ShowAds(),
         ),
       ],
+    );
+  }
+}
+
+class ShowAds extends StatefulWidget {
+  const ShowAds({
+    super.key,
+  });
+
+  @override
+  State<ShowAds> createState() => _ShowAdsState();
+}
+
+class _ShowAdsState extends State<ShowAds> {
+  @override
+  Widget build(BuildContext context) {
+    return CustomListener<GetAdsWithFilterCubit, GetAdsWithFilterState>(
+      isFailure: (state) => state is GetAdsWithFilterFailure,
+      failureMessage: (state) =>
+          (state is GetAdsWithFilterFailure) ? state.detail : 'Unknown error',
+      isSuccess: (state) => state is GetAdsWithFilterSuccess,
+      child: PagewiseListView(
+        pageLoadController:
+            context.read<GetAdsWithFilterCubit>().pageLoadTrxController,
+        padding: const EdgeInsets.only(bottom: 16),
+        itemBuilder: (context, item, index) {
+          return AdsCardItem(
+            imageUrl: (item as AdEntity).iconId != null
+                ? 'http://adv-attachment.runasp.net/api/Files/${item.iconId}'
+                : '',
+            productName: item.title,
+            price: item.price.toString(),
+          );
+          return BannerCarousel(
+            height: 150,
+            maxImageWidth: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            items: [
+              BannerItem(
+                // url: (item as AdEntity).videoId,
+                url:
+                    'http://adv-attachment.runasp.net/api/Files/streamVideo/${item.videoId}',
+                thumbnailUrl:
+                    'http://adv-attachment.runasp.net/api/Files/${item.iconId}',
+                // url:
+                //     'http://adv-attachment.runasp.net/api/Files/${item.iconId}',
+              ),
+            ],
+          );
+        },
+        loadingBuilder: (context) => const CustomProgressIndicator(),
+        noItemsFoundBuilder: (context) => Text(
+          'notFound'.tr,
+          style: Styles.bodyMedium.copyWith(
+            color: AppColors.secondaryColor,
+          ),
+        ),
+      ),
     );
   }
 }

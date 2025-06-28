@@ -3,4 +3,5 @@ const Map<String, String> arSY = {
   'mainView': 'صفحة الرئيسية',
   'desktop': 'كمبيوتر',
   'mobile': 'هاتف',
+  'notFound': 'غير موجود',
 };

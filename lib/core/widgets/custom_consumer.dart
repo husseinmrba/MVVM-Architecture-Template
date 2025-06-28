@@ -10,7 +10,7 @@ class CustomConsumer<C extends Cubit<S>, S> extends StatelessWidget {
   final String Function(S state)? failureMessage;
   final bool Function(S state) isLoading;
   final double? loadingSize;
-  final Widget Function(S state) builder;
+  final Widget Function(BuildContext context, S state) builder;
 
   const CustomConsumer({
     super.key,
@@ -41,7 +41,7 @@ class CustomConsumer<C extends Cubit<S>, S> extends StatelessWidget {
             size: loadingSize ?? 40,
           );
         } else {
-          return builder(state);
+          return builder(context, state);
         }
       },
     );

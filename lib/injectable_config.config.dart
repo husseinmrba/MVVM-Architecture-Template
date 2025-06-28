@@ -20,6 +20,16 @@ import 'package:store_ads/core/interceptors/logging_interceptor.dart' as _i678;
 import 'package:store_ads/core/interceptors/token_interceptor.dart' as _i282;
 import 'package:store_ads/core/permissions/permission_manager.dart' as _i253;
 import 'package:store_ads/core/storage/local_storage_service.dart' as _i645;
+import 'package:store_ads/features/main_feature/data/datasources/remote/ad_remote_data_source.dart'
+    as _i338;
+import 'package:store_ads/features/main_feature/data/datasources/remote/ad_remote_data_source_imp.dart'
+    as _i601;
+import 'package:store_ads/features/main_feature/data/repo_imp/ad_repo_imp.dart'
+    as _i1038;
+import 'package:store_ads/features/main_feature/domain/repo/ad_repo.dart'
+    as _i86;
+import 'package:store_ads/features/main_feature/domain/usecases/get_ads_with_filter_use_case.dart'
+    as _i265;
 import 'package:store_ads/injectable_modules.dart' as _i635;
 
 const String _staging = 'staging';
@@ -64,6 +74,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i233.ProductionConfiguration(),
       registerFor: {_prod},
     );
+    gh.lazySingleton<_i338.AdRemoteDataSource>(
+        () => _i601.AdRemoteDataSourceImp(dioClient: gh<_i88.IDioClient>()));
+    gh.lazySingleton<_i86.AdRepo>(
+        () => _i1038.AdRepoImp(remote: gh<_i338.AdRemoteDataSource>()));
+    gh.lazySingleton<_i265.GetAdsWithFilterUseCase>(
+        () => _i265.GetAdsWithFilterUseCase(adRepo: gh<_i86.AdRepo>()));
     return this;
   }
 }

@@ -77,7 +77,7 @@ handleDioException(DioException e) {
     case DioExceptionType.connectionError:
       throw ConnectionErrorException(
         ErrorModel(
-          msg: 'pleaseCheckYourInternetConnection'.tr,
+          detail: 'pleaseCheckYourInternetConnection'.tr,
         ),
       );
     case DioExceptionType.badCertificate:
@@ -86,7 +86,7 @@ handleDioException(DioException e) {
     case DioExceptionType.connectionTimeout:
       throw ConnectionTimeoutException(
         ErrorModel(
-          msg: 'connectionError'.tr,
+          detail: 'connectionError'.tr,
         ),
       );
     case DioExceptionType.receiveTimeout:
@@ -98,10 +98,10 @@ handleDioException(DioException e) {
           ErrorModel.fromJson(jsonDecode(e.response?.data)));
 
     case DioExceptionType.cancel:
-      throw CancelException(ErrorModel(msg: e.toString()));
+      throw CancelException(ErrorModel(detail: e.toString()));
 
     case DioExceptionType.unknown:
-      throw UnknownException(ErrorModel(msg: e.toString()));
+      throw UnknownException(ErrorModel(detail: e.toString()));
 
     case DioExceptionType.badResponse:
       switch (e.response?.statusCode) {

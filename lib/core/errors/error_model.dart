@@ -1,18 +1,20 @@
 class ErrorModel {
-  final String msg;
-  final String? status;
-  final int? code;
+  final String detail;
+  final String? instance;
+  final List<String>? errors;
 
   ErrorModel({
-    required this.msg,
-    this.status,
-    this.code,
+    required this.detail,
+    this.instance,
+    this.errors = const [],
   });
   factory ErrorModel.fromJson(Map<String, dynamic> jsonData) {
     return ErrorModel(
-      msg: jsonData["msg"] ?? '',
-      status: jsonData["status"] ?? '',
-      code: jsonData["code"] ?? '',
+      detail: jsonData["detail"] ?? '',
+      instance: jsonData["instance"] ?? '',
+      errors: (jsonData["errors"] != null)
+          ? List<String>.from(jsonData["errors"] as List<dynamic>)
+          : [],
     );
   }
 }

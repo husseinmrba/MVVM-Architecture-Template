@@ -10,7 +10,7 @@ abstract class Configuration {
 @LazySingleton(as: Configuration, env: [AppEnvironment.dev])
 class DevConfiguration implements Configuration {
   @override
-  String get getBaseUrl => 'https://dev-domain.com/api/';
+  String get getBaseUrl => 'http://adv-stores.runasp.net/';
 
   @override
   String get name => 'development';
